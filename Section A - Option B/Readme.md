@@ -23,6 +23,7 @@
 * You can see the updated code below:
 
 `
+
     import java.util.*; 
     import javax.swing.*;
 
@@ -39,4 +40,5 @@
         while(!choice.equals("John")); 
     } 
 }
+
 `
