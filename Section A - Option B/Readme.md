@@ -25,10 +25,10 @@ while(!choice.equals("John"));
 * You can see the updated code below:
 
 ```
-    import java.util.*; 
-    import javax.swing.*;
+import java.util.*; 
+import javax.swing.*;
 
-    public class do_whilePassword {
+public class do_whilePassword {
 
     public static void main ( String [] args ) {
         
