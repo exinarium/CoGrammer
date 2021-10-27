@@ -5,7 +5,7 @@
 * Insert spaces between different lines for better readability
 
 * Remove the line of commented code in line 11
-`
+
 * Rather add the operational code to a seperate class and initiate that class inside your main method. 
 
 * Provide a proper summary above the class and the method of the operation performed
@@ -39,6 +39,4 @@
         while(!choice.equals("John")); 
     } 
 }
-
-
 `
