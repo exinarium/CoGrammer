@@ -5,7 +5,7 @@
 * Insert spaces between different lines for better readability
 
 * Remove the line of commented code in line 11
-
+`
 * Rather add the operational code to a seperate class and initiate that class inside your main method. 
 
 * Provide a proper summary above the class and the method of the operation performed
@@ -14,7 +14,7 @@
 
 * The value from the input dialog is saved in the variable. The issue is the comparison operator being used with the while loop in line 14. Using the != or == operators compares the object references and not the actual value of the String. In the case of a String use the .equals() method instead.
 
-`while(!choice.equals("John"))`;
+`while(!choice.equals("John"));`
 
 ### 1.3 Closing Statements
 
@@ -23,6 +23,7 @@
 * You can see the updated code below:
 
 `
+
     import java.util.*; 
     import javax.swing.*;
 
@@ -39,4 +40,6 @@
         while(!choice.equals("John")); 
     } 
 }
+
+
 `
