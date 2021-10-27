@@ -23,7 +23,6 @@
 * You can see the updated code below:
 
 `
-
     import java.util.*; 
     import javax.swing.*;
 
