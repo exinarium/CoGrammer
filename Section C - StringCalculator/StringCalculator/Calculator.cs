@@ -288,14 +288,15 @@ namespace StringCalculator.Calculator
             //Calculate Brackets First
             var startIndex = value.LastIndexOf('(');
 
-            if (startIndex > -1)
+            while (startIndex > -1)
             {
-                var lastIndex = value.LastIndexOf(')');
+                var lastIndex = value.IndexOf(')', startIndex);
 
-                var newValue = value.Substring(startIndex + 1, lastIndex - startIndex);
+                var newValue = value.Substring(startIndex + 1, lastIndex - startIndex - 1);
                 var returnValue = Calculate(newValue);
 
                 value = value.Replace(value.Substring(startIndex, lastIndex - startIndex + 1), returnValue);
+                startIndex = value.LastIndexOf('(');
             }
 
             //Remove unnecessary white space
