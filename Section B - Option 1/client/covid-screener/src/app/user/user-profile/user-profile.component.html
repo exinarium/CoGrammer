@@ -1,0 +1,125 @@
+<form #userForm class="container p-3 needs-validation">
+  <div class="row">
+    <div class="col text-center">
+      <h3>{{operation}} User Profile</h3>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupFullNameInput">Full Name</label>
+        <input type="text" class="form-control" id="formGroupFullNameInput" placeholder="Full Name"
+          [(ngModel)]="fullName" name="fullName" required />
+        <div class="invalid-feedback">
+          Please provide the full name
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="operation === 'New'" class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupEmailAddressInput">Email Address</label>
+        <input class="form-control" id="formGroupEmailAddressInput" placeholder="Email Address"
+          [(ngModel)]="emailAddress" name="emailAddress" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required />
+        <div class="invalid-feedback">
+          Please provide a valid email address
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="editorAdminUser" class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupTagNameInput">Integration Tag Name</label>
+        <input class="form-control" id="formGroupTagNameInput" placeholder="Active Campaign Tag Name"
+          [(ngModel)]="activeCampaignTag" name="activeCampaignTag" />        
+      </div>
+    </div>
+  </div>
+  <div *ngIf="editorAdminUser" class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="isAdminUser">User Role</label>
+        <select class="form-control" id="isAdminUser" name="isAdminUser" [(ngModel)]="isAdminUser" required>
+          <option value="false" selected>Standard User</option>
+          <option value="true">Admin User</option>
+        </select>
+        <div class="invalid-feedback">
+          Please provide a answer
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="operation === 'Edit' && loggedInEmail === emailAddress" class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <button class="btn btn-success" (click)="updatePassword()">Update Password</button>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col p-1">
+      <button class="btn btn-secondary w-100" type="button" (click)="cancelConfirm()">Cancel</button>
+    </div>
+    <div class="col p-1">
+      <button class="btn btn-primary w-100" type="button" (click)="saveProfile()">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Save Profile
+      </button>
+    </div>
+  </div>
+</form>
+<div id="loader-user-profile" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <div class="spinner-border text-danger spinner-border-lg" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="user-profile-cancel-confirm" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <i class="fas fa-exclamation-circle fa-3x pb-3 text-danger"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center text-wrap">
+            <h4><b>Are you sure you want to cancel?</b></h4>
+            <p><b>Unsaved changes will be lost.</b></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center p-1">
+            <button class="btn btn-secondary w-100" data-dismiss="modal">No</button>
+          </div>
+          <div class="col text-center p-1">
+            <button class="btn btn-danger w-100" (click)="cancel()">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="update-password" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <app-update-password (updatedPassword)="closeUpdatePassword()"></app-update-password>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

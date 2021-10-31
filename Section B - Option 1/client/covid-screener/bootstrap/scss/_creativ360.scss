@@ -1,0 +1,235 @@
+// .primary-text {
+// 	color: theme-color('primary-text') !important;
+// }
+
+// .btn-primary-text {
+// 	color: theme-color('btn-primary-text') !important;
+// }
+
+// .secondary-text {
+// 	color: theme-color('secondary-text') !important;
+// }
+
+// .primary-background {
+// 	background-color: theme-color('primary') !important;
+// }
+
+// .secondary-background {
+// 	background-color: theme-color('secondary') !important;
+// }
+
+// .border-secondary-text {
+// 	border-color: $secondary-text !important;
+//   }
+
+// .border-primary-text {
+// 	border-color: $primary-text !important;
+//   }
+
+// .tertiary-background {
+// 	background-color: $tertiary !important;
+// }
+
+.no-shadow {
+	box-shadow: none !important;
+}
+
+.clickable-element {
+
+	cursor: pointer !important;
+}
+
+//Display elements in this category since bootstrap only caters for min-width.
+
+//Specific screen range
+@media (min-width: 1200px) {
+	.lg-display {
+		display: none !important;
+	}
+
+	.md-display {
+		display: none !important;
+	}
+
+	.sm-display {
+		display: none !important;
+	}
+
+	.xs-display {
+		display: none !important;
+	}
+}
+
+@media (max-width: 1200px) and (min-width: 960px) {
+	.xl-display {
+		display: none !important;
+	}
+
+	.md-display {
+		display: none !important;
+	}
+
+	.sm-display {
+		display: none !important;
+	}
+
+	.xs-display {
+		display: none !important;
+	}
+}
+
+@media (max-width: 960px) and (min-width: 768px) {
+	.xl-display {
+		display: none !important;
+	}
+
+	.lg-display {
+		display: none !important;
+	}
+
+	.sm-display {
+		display: none !important;
+	}
+
+	.xs-display {
+		display: none !important;
+	}
+}
+
+@media (max-width: 768px) and (min-width: 576px) {
+	.xl-display {
+		display: none !important;
+	}
+
+	.lg-display {
+		display: none !important;
+	}
+
+	.md-display {
+		display: none !important;
+	}
+
+	.xs-display {
+		display: none !important;
+	}
+}
+
+@media (max-width: 576px) and (min-width: 0px) {
+	.xl-display {
+		display: none !important;
+	}
+
+	.lg-display {
+		display: none !important;
+	}
+
+	.md-display {
+		display: none !important;
+	}
+
+	.sm-display {
+		display: none !important;
+	}
+}
+
+//Up from the specific screen size
+@media (max-width: 1200px) {
+	.from-xl-display {
+		display: none !important;
+	}
+}
+
+@media (max-width: 960px) {
+	.from-xl-display {
+		display: none !important;
+	}
+
+	.from-lg-display {
+		display: none !important;
+	}
+}
+
+@media (max-width: 768px) {
+	.from-xl-display {
+		display: none !important;
+	}
+
+	.from-lg-display {
+		display: none !important;
+	}
+
+	.from-md-display {
+		display: none !important;
+	}
+}
+
+@media (max-width: 576px) {
+	.from-xl-display {
+		display: none !important;
+	}
+
+	.from-lg-display {
+		display: none !important;
+	}
+
+	.from-md-display {
+		display: none !important;
+	}
+
+	.from-sm-display {
+		display: none !important;
+	}
+}
+
+//To the specific screen size
+@media (min-width: 1200px) {	
+
+	.to-lg-display {
+		display: none !important;
+	}
+
+	.to-md-display {
+		display: none !important;
+	}
+
+	.to-sm-display {
+		display: none !important;
+	}
+
+	.to-xs-display {
+		display: none !important;
+	}
+}
+
+@media (min-width: 960px) {
+
+	.to-md-display {
+		display: none !important;
+	}
+
+	.to-sm-display {
+		display: none !important;
+	}
+
+	.to-xs-display {
+		display: none !important;
+	}
+}
+
+@media (min-width: 768px) {
+	
+	.to-sm-display {
+		display: none !important;
+	}
+
+	.to-xs-display {
+		display: none !important;
+	}
+}
+
+@media (min-width: 576px) {
+	
+	.to-xs-display {
+		display: none !important;
+	}
+}

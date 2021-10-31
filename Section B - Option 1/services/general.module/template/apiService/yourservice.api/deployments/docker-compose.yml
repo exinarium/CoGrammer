@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+    yourserviceapi:
+        image: creativ360/development:covidscreener_yourserviceapi1.0
+        deploy:
+            replicas: 1
+        restart: unless-stopped
+        stop_grace_period: 2m
+        ports:
+            - 'XXXX:8080'

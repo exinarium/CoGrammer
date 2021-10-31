@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+    expressgateway:
+        image: creativ360/development:expressgateway1.0
+        deploy:
+            replicas: 1
+        restart: unless-stopped
+        stop_grace_period: 2m
+        ports:
+            - '8080:8080'
+        networks:
+            screener:
+                
+networks:
+    screener:
+        external:
+            name: covidscreener-network

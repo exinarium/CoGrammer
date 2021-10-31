@@ -1,0 +1,238 @@
+<form #candidateForm class="container p-3 needs-validation">
+    <div class="row">
+        <div class="col text-center">
+            <h3>Billing</h3>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <div *ngIf="!isDowngrading && !isCancelled" class="alert alert-info text-center" role="alert">
+                You are currently on a {{plan}} plan {{downgradingPlan > 0 && downgradingPlan < 8 ? annualBilling ? 'with ANNUAL billing' : 'with MONTHLY billing' : ''}}
+            </div>
+            <div *ngIf="isDowngrading && !isCancelled" class="alert alert-info text-center" role="alert">
+                You changed plans and will be downgraded to the {{plan}} plan with {{annualBilling ? 'ANNUAL' : 'MONTHLY'}} billing on {{this.billingDate}}
+            </div>
+            <div *ngIf="!isDowngrading && isCancelled" class="alert alert-danger text-center" role="alert">
+                Your plan has been cancelled and will be suspended on {{this.billingDate}}. Contact support for details.
+            </div>
+            <div *ngIf="downgradingPlan !== 0 && downgradingPlan > 0 && downgradingPlan <= 8" class="alert alert-warning text-center" role="alert">
+                To switch to a different billing period, please contact support
+            </div>
+        </div>
+    </div>
+    <div *ngIf="downgradingPlan === 0 || downgradingPlan < 0 || downgradingPlan > 8" class="row pt-3 pb-3">
+        <div class="col">
+            <div class="text-center mb-3">
+                <div class="custom-control form-control-lg custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1" name="annualBilling" checked="false"
+                        [(ngModel)]="annualBilling" (change)="changeAnnualBilling()">
+                    <label class="custom-control-label ml-1" for="customCheck1">
+                        <h3>Annual Payments <br><span class="text-primary">(-25%
+                                Off!)</span></h3>
+                    </label>
+                </div>
+            </div>
+            <div class="text-center mb-3">
+                <div class="custom-control form-control-lg custom-checkbox">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="border-dark">
+    <div class="container">
+        <div class="card-deck mb-3 text-center">
+            <div *ngFor="let element of paymentPlans" class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{element.name}}</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">R{{element.amount}} <br><small class="text-muted">/
+                            {{annualBilling ? 'Year' : 'Month'}}</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li *ngFor="let benefit of element.benefits">{{benefit}}</li>
+                    </ul>
+                </div>
+                <div *ngIf="downgradingPlan >= 0 && downgradingPlan <= 8" class="card-footer bg-white">
+                    <button *ngIf="element.id === downgradingPlan" type="button" class="btn btn-lg btn-block btn-secondary"
+                        disabled>Current</button>
+                    <button *ngIf="element.id < downgradingPlan" type="button"
+                        class="btn btn-lg btn-block btn-outline-primary"
+                        (click)="downgradePlan(element.id)">Downgrade</button>
+                    <button *ngIf="element.id > downgradingPlan" type="button" class="btn btn-lg btn-block btn-primary"
+                        (click)="upgradePlan(element.id)">Upgrade</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <div class="text-center">
+                Need something else? Contact us now for a customized enterprise plan
+            </div>
+        </div>
+    </div>
+    <div *ngIf="downgradingPlan < 0 || downgradingPlan > 8" class="row pt-3">
+        <div class="col">
+            <div class="alert alert-danger text-center" role="alert">
+                Custom Enterprise plans can only be changed by support. Please contact for assistance.
+            </div>
+        </div>
+    </div>
+    <hr class="border-dark pt-3">
+    <div class="row pt-3">
+        <div class="col">
+            <h5 class="text-danger">Danger Zone</h5>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <button class="btn btn-danger" (click)="deleteOrganization()">Delete Organization and Cancel Plan</button>
+        </div>
+    </div>
+</form>
+<div id="loader-billing" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content" style="background-color: transparent; border: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <div class="spinner-border text-danger spinner-border-lg" role="status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="organization-delete" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-right">
+                        <i class="fas fa-window-close fa-lg p-0 text-danger" data-dismiss="modal"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <i class="fas fa-exclamation-circle fa-3x pb-3 text-danger"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <h4><b>Delete Organization Account?</b></h4>
+                        <p><b>Are you sure you want to complety remove this organization?</b></p>
+                        <p><b>Your entire team will lose access to this application</b></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center p-1">
+                        <button class="btn btn-secondary w-100" data-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="col text-center p-1">
+                        <button class="btn btn-danger w-100" (click)="deleteOrganizationConfirm()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="upgrade-plan" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <i class="fas fa-exclamation-circle fa-3x pb-3 text-info"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center text-wrap">
+                        <h4><b>Upgrade Plan</b></h4>
+                        <p><b>Are you sure you want to upgrade your plan?</b></p>
+                        <p>You will be taken to to the Payment gateway to make your payment.
+                            {{ annualBilling ? 'The remaining balance from your annual plan will be calculated and the new price subscription will be adjusted. Once the payment is made, your new plan should take effect within the next few minutes' :
+                            'Your new billing date will change to the current date every month. Once the payment is made, your new plan should take effect within the next few minutes'}}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center p-1">
+                        <button class="btn btn-secondary w-100" data-dismiss="modal">No</button>
+                    </div>
+                    <div class="col text-center p-1">
+                        <button class="btn btn-info w-100" (click)="upgradePlanConfirmed()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="downgrade-plan" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <i class="fas fa-exclamation-circle fa-3x pb-3 text-info"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center text-wrap">
+                        <h4><b>Downgrade Plan</b></h4>
+                        <p><b>Are you sure you want to downgrade your plan?</b></p>
+                        <p>Your subscription will adjust automatically and will be effective from your next billing
+                            date. Please note that if you have more users, contacts and integrations active than what is
+                            allowed by your new plan, these will automatically be deactivated.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center p-1">
+                        <button class="btn btn-secondary w-100" data-dismiss="modal">No</button>
+                    </div>
+                    <div class="col text-center p-1">
+                        <button class="btn btn-info w-100" (click)="downgradePlanConfirmed()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="loader-billing" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+      <div class="modal-content" style="background-color: transparent; border: none;">
+        <div class="container">
+          <div class="row">
+            <div class="col text-center">
+              <div class="spinner-border text-danger spinner-border-lg" role="status"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<form #payfastForm action="https://www.payfast.co.za/eng/process" method="POST" hidden>
+    <input type="hidden" name="merchant_id" value="{{merchantId}}">
+    <input type="hidden" name="merchant_key" value="{{merchantKey}}">
+    <input type="hidden" name="return_url" value="{{returnUrl}}">
+    <input type="hidden" name="cancel_url" value="{{cancelUrl}}">
+    <input type="hidden" name="notify_url" value="{{itnUrl}}">
+
+    <input type="hidden" name="amount" value="{{amount}}">
+    <input type="hidden" name="item_name" value="{{paymentName}}">
+    <input type="hidden" name="custom_int1" value="{{planNumber}}">
+    <input type="hidden" name="custom_str1" value="{{organizationId}}">
+
+    <input type="hidden" name="email_confirmation" value="1">
+    <input type="hidden" name="confirmation_address" value="{{supportEmail}}">
+
+    <input type="hidden" name="payment_method" value="cc">
+
+    <input type="hidden" name="subscription_type" value="1">
+    <input type="hidden" name="billing_date" value="{{billingDate}}">
+    <input type="hidden" name="recurring_amount" value="{{recurringAmount}}">
+    <input type="hidden" name="frequency" value="{{frequency}}">
+    <input type="hidden" name="cycles" value="0">
+
+    <input type="hidden" name="signature" value="{{signature}}">
+</form>

@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+    emailservice:
+        image: creativ360/development:emailservice1.0
+        deploy:
+            replicas: 1
+        restart: unless-stopped
+        stop_grace_period: 2m
+        networks:
+            screener:
+        dns: 8.8.8.8
+networks:
+    screener:
+        external:
+            name: covidscreener-network

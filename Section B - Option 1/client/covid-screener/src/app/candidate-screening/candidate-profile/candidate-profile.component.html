@@ -1,0 +1,183 @@
+<form #candidateForm class="container p-3 needs-validation">
+  <div class="row">
+    <div class="col text-center">
+      <h3>{{operation}} Contact Profile</h3>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupFirstNameInput">First Name</label>
+        <input type="text" class="form-control" id="formGroupFirstNameInput" placeholder="First Name"
+          [(ngModel)]="firstName" name="firstName" required />
+        <div class="invalid-feedback">
+          Please provide a first name
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupLastNameInput">Last Name</label>
+        <input type="text" class="form-control" id="formGroupLastNameInput" placeholder="Last Name"
+          [(ngModel)]="lastName" name="lastName" required />
+        <div class="invalid-feedback">
+          Please provide a last name
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupIdNumberInput">ID Number</label>
+        <input type="text" class="form-control" id="formGroupIdNumberInput" placeholder="ID Number"
+          [(ngModel)]="idNumber" name="idNumber" required />
+        <div class="invalid-feedback">
+          Please provide an identification number
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupTelephoneNumberInput">Telephone
+          Number</label>
+        <input class="form-control" id="formGroupTelephoneNumberInput" placeholder="Telephone Number"
+          [(ngModel)]="telephoneNumber" name="telephoneNumber" pattern="[+]?[0-9]{10,}" required />
+        <div class="invalid-feedback">
+          Please provide a telephone number
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupEmailAddressInput">Email Address</label>
+        <input class="form-control" id="formGroupEmailAddressInput" placeholder="Email Address"
+          [(ngModel)]="emailAddress" name="emailAddress"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+        <div class="invalid-feedback">
+          Please provide a valid email address
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="formGroupPhysicalAddressInput">Physical Address</label>
+        <input class="form-control" id="formGroupPhysicalAddressInput" placeholder="Physical Address"
+          [(ngModel)]="physicalAddress" name="physicalAddress" />
+        <div class="invalid-feedback">
+          Please provide a valid physical address
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="allowScreeningQuestions"
+          [(ngModel)]="covid19Consent" name="covid19Consent" />
+        <label class="form-check-label" for="allowScreeningQuestions">
+          Do you give consent so we can ask you questions relating to your
+          Covid-19 status?
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="allowMarketingMaterial"
+          [(ngModel)]="marketingConsent" name="marketingConsent" />
+        <label class="form-check-label" for="allowMarketingMaterial">
+          Do you give consent so we send you additional information and
+          marketing material?
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col p-1">
+      <button class="btn btn-secondary w-100" type="button" (click)="cancelConfirm()">Cancel</button>
+    </div>
+    <div class="col p-1">
+      <button class="btn btn-primary w-100" type="button" (click)="saveProfile()">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Save Profile
+      </button>
+    </div>
+  </div>
+</form>
+<div id="loader-candidate-profile" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <div class="spinner-border text-danger spinner-border-lg" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="create-interaction" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <i class="fas fa-check-circle fa-3x pb-3 text-success"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center text-wrap">
+            <h4><b>Profile saved!</b></h4>
+            <p><b>Do you want to create an new interaction for this profile now?</b></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center p-1">
+            <button class="btn btn-secondary w-100" (click)="newInteraction(false)">No</button>
+          </div>
+          <div class="col text-center p-1">
+            <button class="btn btn-success w-100" (click)="newInteraction(true)">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="profile-cancel-confirm" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <i class="fas fa-exclamation-circle fa-3x pb-3 text-danger"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center text-wrap">
+            <h4><b>Are you sure you want to cancel?</b></h4>
+            <p><b>Unsaved changes will be lost.</b></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center p-1">
+            <button class="btn btn-secondary w-100" data-dismiss="modal">No</button>
+          </div>
+          <div class="col text-center p-1">
+            <button class="btn btn-danger w-100" (click)="cancel()">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

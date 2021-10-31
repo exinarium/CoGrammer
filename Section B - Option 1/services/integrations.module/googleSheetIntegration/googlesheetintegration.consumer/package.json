@@ -1,0 +1,24 @@
+{
+    "main": "dist/googlesheetintegration.consumer/src/index.js",
+    "scripts": {
+        "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+        "build": "tsc",
+        "prestart": "npm run build",
+        "start": "node .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Creativ360",
+    "license": "ISC",
+    "dependencies": {
+        "covidscreener-auditlog": "^1.0.12",
+        "covidscreener-authentication-jwt": "^1.0.9",
+        "covidscreener-logging": "^1.2.4",
+        "covidscreener-messagebus": "^1.0.3",
+        "covidscreener-metricslogger": "^1.0.4",
+        "googleapis": "^39.2.0",
+        "mongodb": "^3.5.3"
+    },
+    "devDependencies": {
+        "@types/mongodb": "^3.3.16"
+    }
+}

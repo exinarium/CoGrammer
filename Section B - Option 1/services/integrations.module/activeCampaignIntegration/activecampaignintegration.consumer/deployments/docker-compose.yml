@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+    activecampaignintegrationservice:
+        image: creativ360/development:activecampaignintegrationservice1.0
+        deploy:
+            replicas: 1
+        restart: unless-stopped
+        stop_grace_period: 2m
+        networks:
+            screener:
+networks:
+    screener:
+        external:
+            name: covidscreener-network

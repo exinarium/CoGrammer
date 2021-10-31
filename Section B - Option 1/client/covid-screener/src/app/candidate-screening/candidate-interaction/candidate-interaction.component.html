@@ -1,0 +1,344 @@
+<form #interactionForm class="container p-3 needs-validation">
+  <div class="row">
+    <div class="col text-center">
+      <h3>New Contact Interaction</h3>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col w-100">
+      <label>Client Image</label>
+      <div class="d-flex flex-column align-items-center form-group">
+        <canvas #canvas class="clientImage border w-100 h-100" width="1920" height="1080"></canvas>
+        <input #clientImageInput [hidden]="true"/>        
+        <button class="btn btn-primary mt-3" type="button" data-toggle="modal" data-target="#staticBackdrop">
+          Capture New Contact(s) Image
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-5">
+    <div class="col">
+      <div class="form-group text-center text-danger">
+        <label><b>Please answer the below questions with regards to the contact or the
+            main member in case the contacts are a group</b></label>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="meetingAddress">Where are you meeting (Address)?</label>
+        <input class="form-control" id="meetingAddress" type="text" name="meetingAddress"
+          [(ngModel)]="meetingAddress" required />
+        <div class="invalid-feedback">
+          Please provide a meeting address
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="temperature">Contact temperature?</label>
+        <input class="form-control" id="temperature" name="temperature" [(ngModel)]="temperature" pattern="^[1-9][0-9]*$" />
+        <div class="invalid-feedback">
+          Please provide the contact temperature
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="clientClassification">Contact classification / contact type?</label>
+        <input class="form-control" id="clientClassification" name="clientClassification" [(ngModel)]="clientClassification" type="text" />
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="suspectedCovid19">Have you recently been suspected of having contracted Covid-19 or
+          tested positive for Covid-19?</label>
+        <select class="form-control" id="suspectedCovid19" name="suspectedCovid19" [(ngModel)]="suspectedCovid19" required >
+          <option selected>No</option>
+          <option>Yes</option>
+        </select>
+        <div class="invalid-feedback">
+          Please select yes or no
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="symptomsCovid19">Have you recently had any symptoms associated with Covid-19 (ie.
+          Shortness of Breath, Dry Cough, Fever?</label>
+        <select class="form-control" id="symptomsCovid19" name="symptomsCovid19" [(ngModel)]="symptomsCovid19" required> 
+          <option selected>No</option>
+          <option>Yes</option>
+        </select>
+        <div class="invalid-feedback">
+          Please select yes or no
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="directContactCovid19">Have you recently been in direct contact with anyone that is
+          suspected to have Covid-19 or tested positive for Covid-19?</label>
+        <select class="form-control" id="directContactCovid19" name="directContactCovid19"
+          [(ngModel)]="directContactCovid19" required >
+          <option selected>No</option>
+          <option>Yes</option>          
+        </select>
+        <div class="invalid-feedback">
+          Please select yes or no
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="indirectContactCovid19">Have you recently been in indirect contact with anyone that is
+          suspected to have Covid-19 or tested positive for Covid-19?</label>
+        <select class="form-control" id="indirectContactCovid19" name="indirectContactCovid19"
+          [(ngModel)]="indirectContactCovid19" required >
+          <option selected>No</option>
+          <option>Yes</option>
+        </select>
+        <div class="invalid-feedback">
+          Please select yes or no
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="testedCovid19">Have you been tested for Covid-19 in the last 60 days?</label>
+        <select class="form-control" id="testedCovid19" name="testedCovid19" [(ngModel)]="testedCovid19" required >
+          <option selected>No</option>
+          <option>Yes</option>
+        </select>
+        <div class="invalid-feedback">
+          Please select yes or no
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="travelledInterProvincially">Have you travelled inter-provincially in the last 60 days?</label>
+        <select class="form-control" id="travelledInterProvincially" name="travelledProvincially"
+          [(ngModel)]="travelledProvincially" required >
+          <option selected>No</option>
+          <option>Yes</option>
+        </select>
+        <div class="invalid-feedback">
+          Please select yes or no
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="travelledInternationally">Have you travelled internationally in the last 60 days?</label>
+        <select class="form-control" id="travelledInternationally" name="travelledInternationally"
+          [(ngModel)]="travelledInternationally" required >
+          <option selected>No</option>
+          <option>Yes</option>
+        </select>
+        <div class="invalid-feedback">
+          Please select yes or no
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="autoimmuneDisease">Have you ever been diagnosed with an autoimmune disease?</label>
+        <select class="form-control" id="autoimmuneDisease" name="autoImmuneDisease" [(ngModel)]="autoImmuneDisease" required>
+          <option selected>No</option>
+          <option>Yes</option>
+        </select>
+        <div class="invalid-feedback">
+          Please select yes or no
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <div class="form-group">
+        <label for="notes">Additional Notes</label>
+        <textarea id="additinalNotes" class="form-control" name="additionalNotes"
+          [(ngModel)]="additionalNotes"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col">
+      <label>Additional Group Members (If Any)</label>
+      <div class="mb-3 p-3 border">
+        <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Full Name 1" name="additionalMemberName1"
+              [(ngModel)]="additionalMemberName1" />
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="ID Number 1" name="additionalMemberIDNumber1"
+              [(ngModel)]="additionalMemberIDNumber1" />
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Full Name 2" name="additionalMemberName2"
+              [(ngModel)]="additionalMemberName2" />
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="ID Number 2" name="additionalMemberIDNumber2"
+              [(ngModel)]="additionalMemberIDNumber2" />
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Full Name 3" name="additionalMemberName3"
+              [(ngModel)]="additionalMemberName3" />
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="ID Number 3" name="additionalMemberIDNumber3"
+              [(ngModel)]="additionalMemberIDNumber3" />
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Full Name 4" name="additionalMemberName4"
+              [(ngModel)]="additionalMemberName4" />
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="ID Number 4" name="additionalMemberIDNumber4"
+              [(ngModel)]="additionalMemberIDNumber4" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3 pb-3">
+    <div class="col">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="confirmInformationCorrect"
+          name="confirmInformationCorrect" [(ngModel)]="confirmInformationCorrect" required />
+        <label class="form-check-label" for="confirmInformationCorrect">
+          Do you confirm that the above information is correct and true?
+        </label>
+        <div class="invalid-feedback">
+          You cannot continue unless this box is checked
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row pt-3">
+    <div class="col p-1">
+      <button class="btn btn-secondary w-100" type="button" (click)="cancelConfirm()">Cancel</button>
+    </div>
+    <div class="col p-1">
+      <button class="btn btn-primary w-100" type="button" [disabled]="!confirmInformationCorrect"
+        (click)="saveInteraction()">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Save Interaction
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">
+          Capture Contact Image
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-image-capture (image)="captureImage($event)"></app-image-capture>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="loader-interaction" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <div class="spinner-border text-danger spinner-border-lg" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="interaction-preload" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <i class="fas fa-exclamation-circle fa-3x pb-3 text-info"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center text-wrap">
+            <h4><b>Previous Interaction found!</b></h4>
+            <p><b>Some data has been preloaded.</b></p>
+            <p>Please ensure the data is still correct.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center p-1">
+            <button class="btn btn-info w-100" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="interaction-cancel-confirm" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <i class="fas fa-exclamation-circle fa-3x pb-3 text-danger"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center text-wrap">
+            <h4><b>Are you sure you want to cancel?</b></h4>
+            <p><b>Unsaved changes will be lost.</b></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center p-1">
+            <button class="btn btn-secondary w-100" data-dismiss="modal">No</button>
+          </div>
+          <div class="col text-center p-1">
+            <button class="btn btn-danger w-100" (click)="cancel()">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

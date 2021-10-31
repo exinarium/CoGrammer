@@ -1,0 +1,182 @@
+<div *ngIf="isAdminUser" class="container p-3">
+    <div class="row">
+        <div class="col text-center">
+            <h3>Integrations</h3>
+        </div>
+    </div>
+    <div class="w-100 mt-2">
+        <div class="">
+            <span>
+                <div class="row mt-3">
+                    <div class="col d-flex align-items-center">
+                        <i class="fas fa-file-excel fa-2x text-success"></i>&nbsp;<h5 class="card-title text-wrap m-2">Microsoft Excel
+                        </h5>
+                    </div>
+                </div>
+                <div *ngIf="allowExcelIntegration" class="row mt-3 fluid">
+                    <div class="col">
+                        <button class="btn btn-primary w-100" (click)="exportExcelData()">Export Data</button>
+                    </div>
+                </div>
+                <div *ngIf="!allowExcelIntegration" class="row mt-3 fluid">
+                    <div class="col">
+                        <button class="btn btn-secondary w-100" [routerLink]="['/user/billing']"><i class="fas fa-star text-warning">&nbsp;Premium</i></button>
+                    </div>
+                </div>
+            </span>
+            <hr class="m-4">
+            <span>
+                <div class="row">
+                    <div class="col d-flex align-items-center">
+                        <i class="fab fa-google fa-2x text-success"></i>&nbsp;<h5 class="card-title text-wrap m-2">Google Sheets
+                        </h5>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <span *ngIf="googleStatus">
+                            <i class="fas fa-dot-circle text-success"></i>&nbsp;Status: Active
+                        </span>
+                        <span *ngIf="!googleStatus">
+                            <i class="fas fa-dot-circle text-danger"></i>&nbsp;Status: Inactive
+                        </span>
+                    </div>
+                </div>
+                <div *ngIf="allowGoogleIntegration" class="row mt-3 fluid">
+                    <div class="col">
+                        <button class="btn btn-primary w-100" (click)="authorizeGoogleSheets()">Authorize
+                            Sheets</button>
+                    </div>
+                </div>
+                <div *ngIf="!allowGoogleIntegration" class="row mt-3 fluid">
+                    <div class="col">
+                        <button class="btn btn-secondary w-100" [routerLink]="['/user/billing']"><i class="fas fa-star text-warning">&nbsp;Premium</i></button>
+                    </div>
+                </div>
+            </span>
+            <hr class="m-4">
+            <span>
+                <div class="row">
+                    <div class="col d-flex align-items-center">
+                        <img src="../../../assets/icons/activecampaign-logo.png" width="30" />&nbsp;<h5 class="card-title text-wrap m-2">Active Campaign
+                        </h5>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <span *ngIf="activeCampaignStatus">
+                            <i class="fas fa-dot-circle text-success"></i>&nbsp;Status: Active
+                        </span>
+                        <span *ngIf="!activeCampaignStatus">
+                            <i class="fas fa-dot-circle text-danger"></i>&nbsp;Status: Inactive
+                        </span>
+                    </div>
+                </div>
+                <div *ngIf="allowActiveCampaignIntegration" class="row mt-3 fluid">
+                    <div class="col">
+                        <button class="btn btn-primary w-100" (click)="setupActiveCampaign()">Setup
+                            Active Campaign</button>
+                    </div>
+                </div>
+                <div *ngIf="!allowActiveCampaignIntegration" class="row mt-3 fluid">
+                    <div class="col">
+                        <button class="btn btn-secondary w-100" [routerLink]="['/user/billing']"><i class="fas fa-star text-warning">&nbsp;Premium</i></button>
+                    </div>
+                </div>
+            </span>
+            <hr class="m-4">
+            <span>
+                <div class="row">
+                    <div class="col d-flex align-items-center">
+                        <i class="fab fa-hubspot fa-2x hubspot"></i>&nbsp;<h5 class="card-title text-wrap m-2">Hubspot
+                        </h5>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <span *ngIf="hubspotStatus">
+                            <i class="fas fa-dot-circle text-success"></i>&nbsp;Status: Active
+                        </span>
+                        <span *ngIf="!hubspotStatus">
+                            <i class="fas fa-dot-circle text-danger"></i>&nbsp;Status: Inactive
+                        </span>
+                    </div>
+                </div>
+                <div *ngIf="allowHubspotIntegration" class="row mt-3 fluid">
+                    <div class="col">
+                        <button class="btn btn-primary w-100" (click)="setupHubspot()">Setup Hubspot</button>
+                    </div>
+                </div>
+                <div *ngIf="!allowHubspotIntegration" class="row mt-3 fluid">
+                    <div class="col">
+                        <button class="btn btn-secondary w-100" [routerLink]="['/user/billing']"><i class="fas fa-star text-warning">&nbsp;Premium</i></button>
+                    </div>
+                </div>
+            </span>
+        </div>
+    </div>
+</div>
+<div id="export-data-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content" style="background-color: white; border: none;">
+            <button type="button" class="close text-right mr-3 mt-3" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <app-excel-integration (close)="closeExcelData()"></app-excel-integration>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="google-sheets-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content" style="background-color: white; border: none;">
+            <button type="button" class="close text-right mr-3 mt-3" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <app-google-sheets-integration (complete)="closeGoogleSheets()"></app-google-sheets-integration>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="active-campaign-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content" style="background-color: white; border: none;">
+            <button type="button" class="close text-right mr-3 mt-3" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <app-active-campaign-integration (complete)="closeActiveCampaign()"></app-active-campaign-integration>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="hubspot-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content" style="background-color: white; border: none;">
+            <button type="button" class="close text-right mr-3 mt-3" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <app-hubspot-integration (complete)="closeHubspot()"></app-hubspot-integration>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

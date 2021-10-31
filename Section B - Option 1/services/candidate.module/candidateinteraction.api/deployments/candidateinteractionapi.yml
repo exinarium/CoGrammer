@@ -1,0 +1,91 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- pre-release
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: Build 
+  steps:
+
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'Install Node.js'
+
+  - task: Npm@1
+    inputs:
+      command: 'install'
+      workingDir: 'services/candidate.module/candidateinteraction.api'
+      customRegistry: 'useFeed'
+      customFeed: 'd1ed612a-415a-4ca6-aba7-2df7b1c1cd8c/1462d9f8-bd3f-425d-9b73-2ea861e6ceea'    
+
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      workingDir: 'services/candidate.module/candidateinteraction.api'
+      customCommand: 'run build'
+      customRegistry: 'useFeed'
+      customFeed: 'd1ed612a-415a-4ca6-aba7-2df7b1c1cd8c/1462d9f8-bd3f-425d-9b73-2ea861e6ceea'
+
+  - task: Docker@2
+    condition: succeeded()
+    inputs:
+      containerRegistry: 'Docker Hub'
+      repository: 'creativ360/development'
+      command: 'buildAndPush'
+      Dockerfile: 'services/candidate.module/candidateinteraction.api/Dockerfile'
+      
+- job: Publish_Artifacts
+  dependsOn: Build
+  steps:
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'services/candidate.module/candidateinteraction.api/deployments/'
+      artifact: 'CandidateInteractionAPI'
+      publishLocation: 'pipeline'
+
+- job: Notify_Success
+  pool: server
+  dependsOn: Publish_Artifacts
+  condition: succeeded('Build', 'Publish_Artifacts')
+  steps: 
+  - task: InvokeRESTAPI@1
+    inputs:
+      connectionType: 'connectedServiceName'
+      serviceConnection: 'Google Chat Build'
+      waitForCompletion: 'false'
+      method: 'POST'
+      headers: |
+        {
+        "Content-Type": "application/json; charset=UTF-8"      
+        }
+      body: |
+        {
+        "text": "✔ *Build Sucessful!*\n\nBuild ID: $(Build.BuildId)\n\nBuild Branch: $(Build.SourceBranchName)\n\nService: CandidateInteractionAPI\n\nBuild URL: https://creativ360.visualstudio.com/2020Screener/_build/results?buildId=$(Build.BuildId)&view=results"
+        }
+
+- job: Notify_Failure
+  pool: server
+  dependsOn: Publish_Artifacts
+  condition: failed('Build', 'Publish_Artifacts')
+  steps: 
+  - task: InvokeRESTAPI@1
+    inputs:
+      connectionType: 'connectedServiceName'
+      serviceConnection: 'Google Chat Build'
+      waitForCompletion: 'false'
+      method: 'POST'
+      headers: |
+        {
+        "Content-Type": "application/json; charset=UTF-8"      
+        }
+      body: |
+        {
+        "text": "❌ *Build Failed!*\n\nBuild ID: $(Build.BuildId)\n\nBuild Branch: $(Build.SourceBranchName)\n\nService: CandidateInteractionAPI\n\nBuild URL: https://creativ360.visualstudio.com/2020Screener/_build/results?buildId=$(Build.BuildId)&view=results"
+        }

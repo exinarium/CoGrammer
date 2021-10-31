@@ -1,0 +1,170 @@
+<div class="container p-3">
+  <div class="row">
+    <div class="col text-center">
+      <h3>Contact List</h3>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Enter ID number" aria-label="Search"
+          aria-describedby="basic-addon2" name="search" [(ngModel)]="searchString" />
+        <div class=" input-group-append">
+          <span class="input-group-text" id="basic-addon2"><i class="fas fa-search" (click)="search(true)"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row pt-1">
+    <div class="col">
+      <div class="input-group">
+        <button class="btn btn-primary w-100" (click)="newProfile()">New Profile</button>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div #noProfile *ngIf="(!candidateList || candidateList.length === 0)"
+    class="row w-100 justify-content-center m-0 p-0">
+    <div class="col-9 justify-content-center m-0 p-0" class="text-center">
+      <br>
+      <img src="../../../assets/images/squarelogo.svg" class="w-100">
+    </div>
+  </div>
+  <div *ngFor="let element of candidateList">
+    <div class="card w-100 mt-2">
+      <div class="card-body">
+        <div class="row">            
+          <div class="col-7">
+            <h5 class="card-title clickable-element text-wrap" (click)="editProfile(element._id)"><i class="fas fa-user-circle fa-lg"></i>&nbsp;{{element.firstName}}
+              {{element.lastName}}</h5>
+          </div>
+          <div class="col">
+            <i *ngIf="isAdminUser" class="fas fa-trash fa-lg float-right text-danger p-1"
+              (click)="deleteProfileConfirm(element._id, element.firstName, element.lastName)"></i>
+            <i class="fas fa-pencil-alt fa-lg float-right text-primary p-1" (click)="editProfile(element._id)"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h6 class="card-subtitle mb-2 text-muted text-wrap">{{element.idNumber}}</h6>
+          </div>
+        </div>
+        <table class="card-text mt-3 pb-0">
+          <tr>
+            <td class="pr-4 text-wrap"><b>Telephone:</b></td>
+          </tr>
+          <tr>
+            <td class="text-wrap">{{element.telephoneNumber}}</td>
+          </tr>
+          <br />
+          <tr>
+            <td class="pr-4 text-wrap"><b>Email:</b></td>
+          </tr>
+          <tr>
+            <td class="text-wrap">{{element.emailAddress}}</td>
+          </tr>
+          <br />
+          <tr>
+            <td class="pr-4 text-wrap"><b>Modified By:</b></td>
+          </tr>
+          <tr>
+            <td class="text-wrap">{{element.username}} - {{element.modifiedDate}}</td>
+          </tr>
+        </table>
+        <button *ngIf="element.covid19Consent" class="btn btn-secondary w-100 mt-3"
+          (click)="viewInteractions(element._id)">Interactions</button>
+        <p *ngIf="!element.covid19Consent" class="text-danger text-center w-100 mt-3 mb-1"><b>No consent to ask Covid-19
+            questions</b></p>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="candidateList.length > 0" class="row mt-3">
+    <div class="col">
+      <div class="input-group">
+        <button class="btn btn-primary w-100" (click)="loadMore()">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Load More</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="loader-profile-list" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <div class="spinner-border text-danger spinner-border-lg" role="status"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="profile-delete" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-right">
+            <i class="fas fa-window-close fa-lg p-0 text-danger" data-dismiss="modal"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center">
+            <i class="fas fa-exclamation-circle fa-3x pb-3 text-danger"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center">
+            <h4><b>Delete Profile?</b></h4>
+            <p><b>Are you sure you want to delete this profile?</b></p>
+            <p><b>{{name}} {{surname}}</b></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center p-1">
+            <button class="btn btn-secondary w-100" data-dismiss="modal">Cancel</button>
+          </div>
+          <div class="col text-center p-1">
+            <button class="btn btn-danger w-100" (click)="deleteProfile()">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="profile-undelete" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content bg-light p-2" style="background-color: transparent; border: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col text-right">
+            <i class="fas fa-window-close fa-lg p-0 text-danger" data-dismiss="modal"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center">
+            <i class="fas fa-exclamation-circle fa-3x pb-3 text-warning"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center text-wrap">
+            <h4><b>Deleted Profile Detected</b></h4>
+            <p><b>The profile you searched has been deleted. Do you want to reactivate this profile?</b></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-center p-1">
+            <button class="btn btn-secondary w-100" data-dismiss="modal">Cancel</button>
+          </div>
+          <div class="col text-center p-1">
+            <button class="btn btn-warning w-100 text-white" (click)="undeleteProfile()">Restore</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

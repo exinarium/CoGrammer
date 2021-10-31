@@ -1,0 +1,21 @@
+{
+    "main": "dist/auditlog.consumer/src/index.js",
+    "scripts": {
+        "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+        "build": "tsc",
+        "prestart": "npm run build",
+        "start": "node .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Creativ360",
+    "license": "ISC",
+    "dependencies": {
+        "covidscreener-logging": "^1.2.4",
+        "covidscreener-metricslogger": "^1.0.4",
+        "covidscreener-messagebus": "^1.0.3",
+        "mongodb": "^3.5.3"
+    },
+    "devDependencies": {
+        "@types/mongodb": "^3.3.16"
+    }
+}

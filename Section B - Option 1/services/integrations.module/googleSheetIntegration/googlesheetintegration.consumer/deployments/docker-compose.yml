@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+    googlesheetintegrationservice:
+        image: creativ360/development:googlesheetintegrationservice1.0
+        deploy:
+            replicas: 1
+        restart: unless-stopped
+        stop_grace_period: 2m
+        networks:
+            screener:
+networks:
+    screener:
+        external:
+            name: covidscreener-network

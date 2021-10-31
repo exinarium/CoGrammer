@@ -1,0 +1,149 @@
+<div *ngIf="!staticIsLoggedIn">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light w-100 p-3 m-0 justify-content-center">
+      <a class="navbar-brand m-0" href="#">
+        <img src="../assets/images/2020screener-logo.svg" height="60" class="d-inline-block align-top" alt="">
+    </a>
+  </nav>
+</div>
+<div *ngIf="staticIsLoggedIn">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
+    <a class="navbar-brand" href="#">
+      <img src="../assets/images/2020screener-logo.svg" height="60" class="d-inline-block align-top" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav mr-auto">
+        <!-- <li class="nav-item active">
+        <a class="nav-link" href="#"><i class="fas fa-home fa-lg"></i>&nbsp;Home</a>
+      </li> -->
+        <li class="nav-item dropdown">
+          <a class="nav-link" [routerLink]="['/contact/profile-list']" [replaceUrl]="true" role="button" aria-expanded="false"
+            data-toggle="collapse" data-target="#navbarNavAltMarkup">
+            <div class="row">
+              <div class="col-1 text-center">
+                <i class="fas fa-universal-access fa-lg"></i>
+              </div>
+              <div class="col">
+                Contacts
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown" href="#" id="profileDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <div class="row">
+              <div class="col-1 text-center">
+                <i class="fas fa-cog fa-lg"></i>
+              </div>
+              <div class="col">
+                Profile
+              </div>
+            </div>
+          </a>
+          <div class="dropdown-menu p-3" aria-labelledby="profileDropdown">
+            <a *ngIf="userId && userId !== ''" class="dropdown-item" [routerLink]="['/user/profile/', userId]" [replaceUrl]="true"
+              role="button" aria-expanded="false" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+              <div class="row">
+                <div class="col-2 p-0 text-center">
+                  <i class="fas fa-user fa-lg"></i>
+                </div>
+                <div class="col">
+                  Settings
+                </div>
+              </div>
+            </a>
+            <a *ngIf="isAdminUser" class="dropdown-item" [routerLink]="['/user/team']" [replaceUrl]="true" role="button"
+              aria-expanded="false" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+              <div class="row">
+                <div class="col-2 p-0 text-center">
+                  <i class="fas fa-users fa-lg"></i>
+                </div>
+                <div class="col">
+                  Team Members
+                </div>
+              </div>
+            </a>
+            <a *ngIf="isAdminUser" class="dropdown-item" [routerLink]="['/user/billing']" [replaceUrl]="true" role="button"
+              aria-expanded="false" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+              <div class="row">
+                <div class="col-2 p-0 text-center">
+                  <i class="fas fa-dollar-sign fa-lg"></i>
+                </div>
+                <div class="col">
+                  Billing
+                </div>
+              </div>
+            </a>
+            <a *ngIf="isAdminUser" class="dropdown-item" [routerLink]="['/integration']" [replaceUrl]="true" role="button"
+              aria-expanded="false" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+              <div class="row">
+                <div class="col-2 p-0 text-center">
+                  <i class="fab fa-connectdevelop fa-lg"></i>
+                </div>
+                <div class="col">
+                  Integrations
+                </div>
+              </div>
+            </a>            
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" (click)="showTutorialScreen()" role="button" aria-expanded="false"
+            data-toggle="collapse" data-target="#navbarNavAltMarkup">
+            <div class="row">
+              <div class="col-1 text-center">
+                <i class="fas fa-question-circle fa-lg"></i>
+              </div>
+              <div class="col">
+                Help
+              </div>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link" (click)="logout()" role="button"  aria-expanded="false" data-toggle="collapse"
+              data-target="#navbarNavAltMarkup">
+              <div class="row">
+                <div class="col-1 text-center">
+                  <i class="fas fa-sign-out-alt fa-lg"></i>
+                </div>
+                <div class="col">
+                  Sign Out
+                </div>
+              </div>
+            </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="content pt-3 mb-5">
+  <toaster-container></toaster-container>
+  <div *ngIf="!messageDismissed && staticIsLoggedIn && paymentPlan === 0 && isAdminUser" class="alert alert-info text-center" role="alert">
+    Enjoying your free account? Upgrade to get even more awesome features! <a class="text-primary clickable-element" [routerLink]="['/user/billing']">Upgrade</a>&nbsp;<a class="text-primary clickable-element" (click)="dismissMessage()">Dismiss</a>
+</div>
+<div *ngIf="!messageDismissed && staticIsLoggedIn && paymentPlan === 0 && !isAdminUser" class="alert alert-info text-center" role="alert">
+  Enjoying your free account? Upgrade to get even more awesome features! <a class="text-primary clickable-element" (click)="dismissMessage()">Dismiss</a>
+</div>
+  <router-outlet></router-outlet>
+</div>
+<div class="text-center fixed-bottom bg-dark text-white">
+  <span><a class="text-white" href="https://www.creativ360.com" target="_blank">Powered by Creativ360.</a>&nbsp;Copyright 2020.&nbsp;<a class="text-white" [routerLink]="['/privacy-policy']" [replaceUrl]="true">Privacy Policy.</a>&nbsp;<a class="text-white" [routerLink]="['/contact-us']" [replaceUrl]="true">Contact Us</a></span> 
+</div>
+<div id="tutorial-modal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+    <div class="modal-content">
+      <div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <app-tutorial [tutorialViewed]="staticTutorialViewed" (tutorialDoneClicked)="finishTutorialScreen()"></app-tutorial>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

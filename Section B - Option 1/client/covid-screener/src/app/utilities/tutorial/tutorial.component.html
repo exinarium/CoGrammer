@@ -1,0 +1,72 @@
+<div class="container p-3">
+    <div class="row">
+        <div class="col text-center">
+            <h4>Welcome to 2020 Screener!</h4>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div *ngIf="page === 0" class="col">
+            <h5>Let's get started!</h5>
+            <img src="../../../assets/images/squarelogo.svg" class="w-100">
+        </div>
+        <div *ngIf="page === 1" class="col">
+            <p>When you open the app you will land on the contact list page. Here you can search for contacts by their
+                ID number or create new contact profiles</p>
+            <img src="../../../assets/images/tutorial/contact-screen.png" class="w-100">
+        </div>
+        <div *ngIf="page === 2" class="col">
+            <p>When clicking on new the new profile button, you will land on this page. It allows you to fill in all details relating to your contact.</p>
+            <img src="../../../assets/images/tutorial/new-profile-screen.png" class="w-100">
+        </div>
+        <div *ngIf="page === 3" class="col">
+            <p>Fill in the details, then click save.</p>
+            <img src="../../../assets/images/tutorial/filled-contact.png" class="w-100">
+        </div>
+        <div *ngIf="page === 4" class="col">
+            <p>This box will appear when you create a new profile. Clicking on no will take you back to the contact list, while clicking yes will take you to the contact interaction create screen.</p>
+            <img src="../../../assets/images/tutorial/profile-saved-screen.png" class="w-100">
+        </div>
+        <div *ngIf="page === 5" class="col">
+            <p>You will now be able to search the contact by ID number. We gave John Doe the ID number of '1234'</p>
+            <img src="../../../assets/images/tutorial/search-contact-1.png" class="w-100">
+        </div>
+        <div *ngIf="page === 6" class="col">
+            <p>Once the contact is found, it will appear in the list</p>
+            <img src="../../../assets/images/tutorial/search-contact-2.png" class="w-100">
+        </div>
+        <div *ngIf="page === 7" class="col">
+            <p>Click on the 'View Interactions' button on the contact list and you will be brought to the 'Contact Interaction List'. This will only display interactions for the current user with the selected contact.</p>
+            <img src="../../../assets/images/tutorial/interaction-list-empty.png" class="w-100">
+        </div>
+        <div *ngIf="page === 8" class="col">
+            <p>Clicking on the new button will allow you to load a new contact interaction.</p>
+            <img src="../../../assets/images/tutorial/create-interaction-empty.png" class="w-100">
+        </div>
+        <div *ngIf="page === 9" class="col">
+            <p>After the interaction has been saved you will return to the 'Contact Interaction List'. Note that the new interaction now appears at the bottom.</p>
+            <img src="../../../assets/images/tutorial/interaction-list-record.png" class="w-100">
+        </div>
+        <div *ngIf="page === 10" class="col">
+            <p>This tutorial briefly covered the 2020 Screener application so you can get started. If you ever wish to view this tutorial again, use the 'Help' section in the menu.</p>
+            <img src="../../../assets/images/tutorial/tutorial-again.png" class="w-100">
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col p-1">
+            <button class="btn btn-secondary w-100" type="button" (click)="goPrevious()" [disabled]="page === 0">
+                Previous
+            </button>
+        </div>        
+        <div class="col p-1">
+            <button class="btn btn-primary w-100" type="button" (click)="goNext()">
+                <span *ngIf="page !== totalPages">Next</span>
+                <span *ngIf="page === totalPages">Done</span>
+            </button>
+        </div>
+        <div *ngIf="tutorialViewed" class="col p-1">
+            <button class="btn btn-secondary w-100" type="button" (click)="skipTutorial()">
+                Close
+            </button>
+        </div>
+    </div>
+</div>

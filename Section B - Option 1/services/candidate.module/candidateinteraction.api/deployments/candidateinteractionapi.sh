@@ -1,0 +1,1 @@
+docker stack deploy -c ${workdir}/_CandidateInteractionAPI/CandidateInteractionAPI/docker-compose.yml covidscreener_candidateinteraction

@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+    loggingapi:
+        image: creativ360/development:covidscreener_loggingapi1.0
+        deploy:
+            replicas: 1
+        restart: unless-stopped
+        stop_grace_period: 2m
+        expose:
+            - '8080'
+        networks:
+            screener:
+networks:
+    screener:
+        external:
+            name: covidscreener-network

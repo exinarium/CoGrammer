@@ -1,0 +1,333 @@
+http:
+  port: 8080
+# https:
+#   port: 8008
+#   tls:
+#     default:
+#       key: 'certificates/server.key'
+#       cert: 'certificates/server.crt'
+#       ca: ['certificates/rootCA.pem']
+#   options:
+#     requestCert: true
+#     rejectUnauthorized: true
+admin:
+  port: 9876
+  host: localhost
+apiEndpoints:
+  auth:
+    host: '*'
+    paths: 
+      - '/api/v1/authentication'
+    methods: ["POST", "OPTIONS"]
+  logging:
+    host: '*'
+    paths: 
+      - '/api/v1/log'
+    methods: ["POST", "OPTIONS"]
+  email:
+    host: '*'
+    paths: 
+      - '/api/v1/email'
+    methods: ["POST", "OPTIONS"]
+  users:
+    host: '*'
+    paths: 
+      - '/api/v1/userlookup/*'
+      - '/api/v1/undeleteuser/*'
+      - '/api/v1/deleteuser/*'
+      - '/api/v1/updateuser/*'
+      - '/api/v1/createuser/*'
+      - '/api/v1/verify/'
+      - '/api/v1/forgot-password/'
+      - '/api/v1/update-password/'
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+  organizations:
+    host: '*'
+    paths: 
+      - '/api/v1/organizationlookup/*'
+      - '/api/v1/updateorganization'
+      - '/api/v1/createorganization'
+      - '/api/v1/deleteorganization/*'
+    methods: ["PUT", "GET", "OPTIONS", "DELETE", "POST"]
+  candidateProfile:
+    host: '*'
+    paths: 
+      - '/api/v1/candidateprofilelookup/*'
+      - '/api/v1/undeletecandidateprofile/*'
+      - '/api/v1/deletecandidateprofile/*'
+      - '/api/v1/updatecandidateprofile/*'
+      - '/api/v1/createcandidateprofile/*'
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+  candidateInteraction:
+    host: '*'
+    paths: 
+      - '/api/v1/candidateinteractionlookup/*'
+      - '/api/v1/undeletecandidateinteraction/*'
+      - '/api/v1/deletecandidateinteraction/*'
+      - '/api/v1/updatecandidateinteraction/*'
+      - '/api/v1/createcandidateinteraction/*'
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+  excelIntegration:
+    host: '*'
+    paths: 
+      - '/api/v1/excelintegration/*'
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+  googleSheetIntegration:
+    host: '*'
+    paths: 
+      - '/api/v1/googlesheetintegration/*'
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+  activeCampaignIntegration:
+    host: '*'
+    paths: 
+      - '/api/v1/activecampaignintegration/*'
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+  hubspotIntegration:
+    host: '*'
+    paths: 
+      - '/api/v1/hubspotintegration/*'
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+  payfastITN:
+    host: '*'
+    paths: 
+      - '/api/v1/payfast-itn/*'
+      - '/api/v1/cancelpayfast/*'
+      - '/api/v1/updatepayfast/*'
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]  
+  client:
+    host: '*'
+    paths: 
+      - '/*'
+    methods: ["GET", "OPTIONS"]
+serviceEndpoints:
+  clientService:
+    url: 'http://192.168.1.254:80/'
+  emailService:
+    url: 'http://emailapi:8080/'
+  loggingService:
+    url: 'http://loggingapi:8080/'
+  userService:
+    url: 'http://userapi:8080/'
+  organizationService:
+    url: 'http://organizationapi:8080/'
+  candidateProfileService:
+    url: 'http://candidateprofileapi:8080/'
+  candidateInteractionService:
+    url: 'http://candidateinteractionapi:8080/'
+  authService:
+    url: 'http://authenticationapi:8080/'
+  excelIntegrationService:
+    url: 'http://excelintegrationapi:8002/'  
+  googleSheetIntegrationService:
+    url: 'http://googlesheetintegrationapi:8080/'
+  activeCampaignIntegrationService:
+    url: 'http://activecampaignintegrationapi:8002/'
+  hubspotIntegrationService:
+    url: 'http://hubspotintegrationapi:8080/'
+  payfastITNService:
+    url: 'http://payfastapi:8080/'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  auth:
+    apiEndpoints:
+      - auth
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+
+      - proxy:
+          - action:
+              serviceEndpoint: authService 
+              changeOrigin: true
+  logging:
+    apiEndpoints:
+      - logging
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+
+      - proxy:
+          - action:
+              serviceEndpoint: loggingService 
+              changeOrigin: true
+  email:
+    apiEndpoints:
+      - email
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+
+      - proxy:
+          - action:
+              serviceEndpoint: emailService 
+              changeOrigin: true
+  users:
+    apiEndpoints:
+      - users
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+
+      - proxy:
+          - action:
+              serviceEndpoint: userService 
+              changeOrigin: true
+  organizations:
+    apiEndpoints:
+      - organizations
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+
+      - proxy:
+          - action:
+              serviceEndpoint: organizationService 
+              changeOrigin: true
+  candidateProfile:
+    apiEndpoints:
+      - candidateProfile
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+            
+      - proxy:
+          - action:
+              serviceEndpoint: candidateProfileService 
+              changeOrigin: true
+  candidateInteraction:
+    apiEndpoints:
+      - candidateInteraction
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+            
+      - proxy:
+          - action:
+              serviceEndpoint: candidateInteractionService 
+              changeOrigin: true
+  excelIntegration:
+    apiEndpoints:
+      - excelIntegration
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+              
+      - proxy:
+          - action:
+              serviceEndpoint: excelIntegrationService 
+              changeOrigin: true
+  googleSheetIntegration:
+    apiEndpoints:
+      - googleSheetIntegration
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+            
+      - proxy:
+          - action:
+              serviceEndpoint: googleSheetIntegrationService 
+              changeOrigin: true
+  activeCampaignIntegration:
+    apiEndpoints:
+      - activeCampaignIntegration
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+            
+      - proxy:
+          - action:
+              serviceEndpoint: activeCampaignIntegrationService 
+              changeOrigin: true
+  hubspotIntegration:
+    apiEndpoints:
+      - hubspotIntegration
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,PUT,PATCH,POST,DELETE,GET'
+            
+      - proxy:
+          - action:
+              serviceEndpoint: hubspotIntegrationService 
+              changeOrigin: true
+  client:
+    apiEndpoints:
+      - client
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,GET'
+            
+      - proxy:
+          - action:
+              serviceEndpoint: clientService 
+              changeOrigin: true
+  payfastITN:
+    apiEndpoints:
+      - payfastITN
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+    # - key-auth:
+      - cors:
+        - action:
+            origin: '*'
+            methods: 'HEAD,GET,POST,PUT,DELETE,PATCH'
+            
+      - proxy:
+          - action:
+              serviceEndpoint: payfastITNService 
+              changeOrigin: true

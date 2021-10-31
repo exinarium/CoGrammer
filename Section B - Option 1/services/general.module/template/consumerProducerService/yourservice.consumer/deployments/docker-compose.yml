@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+    yourserviceservice:
+        image: creativ360/development:yourserviceservice1.0
+        deploy:
+            replicas: 1
+        restart: unless-stopped
+        stop_grace_period: 2m
+        networks:
+            screener:
+networks:
+    screener:
+        external:
+            name: covidscreener-network

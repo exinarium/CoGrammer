@@ -1,0 +1,98 @@
+<form #contactForm class="container p-3 needs-validation">
+    <div class="row">
+        <div class="col text-center">
+            <h3>Contact Us</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <h5>Have a support query or a cool feature idea? Send us a message now!</h5>
+        </div>
+    </div>
+    <div *ngIf="messageSent" class="row">
+        <div class="col">
+            <div class="alert alert-success text-center" role="alert">
+                Message sent successfully!
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <div class="form-group">
+                <label for="formGroupNameInput">Your Name</label>
+                <input type="text" class="form-control" id="formGroupNameInput" placeholder="Name" [(ngModel)]="name"
+                    name="name" required />
+                <div class="invalid-feedback">
+                    Please provide your name
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <div class="form-group">
+                <label for="formGroupEmailAddressInput">Your Email Address</label>
+                <input class="form-control" id="formGroupEmailAddressInput" placeholder="Email Address"
+                    [(ngModel)]="emailAddress" name="emailAddress" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    required />
+                <div class="invalid-feedback">
+                    Please provide a valid email address
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <div class="form-group">
+                <label for="formGroupSubjectInput">Subject</label>
+                <input type="text" class="form-control" id="formGroupSubjectInput" placeholder="Subject"
+                    [(ngModel)]="subject" name="subject" required />
+                <div class="invalid-feedback">
+                    Please provide a subject
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <div class="form-group">
+                <label for="formGroupMessageInput">Message</label>
+                <textarea type="text" class="form-control" id="formGroupMessageInput" placeholder="Message"
+                    [(ngModel)]="message" name="message" required></textarea>
+                <div class="invalid-feedback">
+                    Please provide a message
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <div #recaptcha class="g-recaptcha" data-callback="recaptchaSuccess" data-sitekey="6Ld3McYZAAAAALQsyZeZFKkW0UTDwtpSbEpaU5IS"></div>
+            <div class="invalid-feedback">
+                Please complete the captcha
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col p-1">
+            <button class="btn btn-primary w-100" type="button" (click)="sendMessage()">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status"
+                    aria-hidden="true"></span>
+                Send Message
+            </button>
+        </div>
+    </div>
+</form>
+<div id="loader-contact-us" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered justify-content-center" role="document">
+        <div class="modal-content" style="background-color: transparent; border: none;">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <div class="spinner-border text-danger spinner-border-lg" role="status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
