@@ -4,7 +4,7 @@ This is an app that I built last year that runs in the MEAN stack (Mongo, Expres
 
 ## Structure of the app
 
-The app is built with microservices and an Angular UI. The UI is a progressive web app. The microservices all have monitoring on them using Prometheus and is deployed as individual docker containers on a VPS in the United States.
+The app is built with microservices and an Angular UI. The UI is a progressive web app. The microservices all have monitoring on them using Prometheus and is deployed as individual docker containers on a VPS in the United States. The services communicate through a message bus, which I have written myself. The code is also part of the project
 
 ## How to access the app?
 
